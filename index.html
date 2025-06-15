@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html><head>
+<title>D0rk3r</title>
+<style>
+html{height: 100%; margin: 0px; background-color: black ; color: white}
+body {margin: 0px; height:auto}
+.srch {
+width: 100%;
+height: auto;
+display: flex;
+justify-content: center;
+
+}
+input[type=text] {
+width: 300px;
+height: 30px;
+}
+#dorklist {
+width: 100%;
+height: auto;
+display: flex;
+justify-content: flex;
+flex-direction: column
+
+}
+
+.navbar {
+display:flex;
+height: 100px;
+width: 100%;
+background-color: black;
+justify-content: space-evenly;
+align-items: center
+}
+
+button {
+height: 35px;
+width: 200px;
+padding: 5px 5px;
+font-size: 15px;
+/*border: none*/
+
+}
+</style>
+
+</head>
+<body>
+
+
+<div class="navbar">
+<button id=f>
+Domain
+</button>
+<button>
+Cameras
+</button>
+<button>
+IP
+</button>
+<button>
+OSINT
+</button>
+
+
+
+</div>
+
+<div>
+
+
+<h2 align=center>D0rk3r by Eth3rnal</h2>
+
+<div class="srch"><input type=text id=srchbox style="padding: 2px 11px; font-size: 17px" placeholder="Type in" oninput="suggest()"></div>
+</div>
+<div id=dorklist>
+</div>
+
+
+<script>
+
+// Click the first button
+clicked(g("f"));
+
+// Define getElement shorter function
+function g(x) {
+return document.getElementById(x);
+}
+
+
+
+// Loading and setting jsonData to DORK data from JSON - script tag 
+// JSON types custom=by user, 0==null
+let jsonData;
+window.onload=()=>{
+  let scriptElement = g("dork_db");
+  let jsonText = scriptElement.textContent.replaceAll('\t', '').replaceAll('\n', '');
+  window.jsonData = JSON.parse(jsonText);
+  nowDefine();
+}
+function nowDefine() {jsonData=window.jsonData}
+
+
+
+// The function which triggers oninput, calls display()
+
+function suggest() {
+
+c=g("srchbox").value;
+jsonData.OSINT.map((dork)=>{display(dork)})
+
+
+
+}
+
+
+// Behind the screens outputer,  associated with suggest()
+function display(d) {
+
+g("dorklist").innerHTML=construct(); //continue later) brb
+
+
+function construct() {
+let result="";
+jsonData[STATE].forEach( 
+(x)=>{
+// Object keys values
+result+=x.description + x.intext  + x.inurl + x.intitle + x.filetype + x.link + "<br>"
+})
+
+
+return result;
+//"site:\""+d.site+"\", innertext:\""
+}
+
+
+}
+
+// Adding all buttons eventListeners, passed param = x.innerText
+
+document.querySelectorAll("button").forEach((x)=>{x.addEventListener("click", ()=>{clicked(x)} )    } )
+
+
+// Defining clicked(), to recognise current state of d0rker
+
+function clicked(x) {
+//alert(x.innerText);
+document.querySelectorAll("button").forEach((x)=>{  x.style.backgroundColor = "buttonface"   } )
+x.style.backgroundColor = "green";
+STATE=x.innerText.toLocaleUpperCase();
+
+}
+
+
+
+
+</script>
+<script type="application/json" id="dork_db">
+{
+  "DOMAIN": [
+	{
+	"site":"",
+	"intext":"",
+	"inurl": "",
+	"intitle": "",
+	"filetype":"",
+	"link":""
+		},
+	{"a":"aa"
+		},
+	{"a":"aa"
+		}
+	
+  ],
+  "CAMERA": [44],
+  "OSINT": [
+  
+	{
+	"description":"Some",
+	"intext": "input"
+		},
+	{
+	"description":"Some2",
+	"site":"pastebin.com",
+	"intext": "input"
+		}
+  
+  
+  ]
+}
+
+</script>
+</body>
+</html>
